@@ -20,6 +20,9 @@ set(CORE_SOURCE
 
 set(CORE_HEADERS
     src/module/dummyLib.h
+    src/module/pointer.h
+    src/module/dynamicArray.h
+    src/module/timer.h
 )
 
 file(GLOB TEST_SOURCE
