@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "dynamicArray.h"
+#include "fraction.h"
 #include "pointer.h"
 #include "timer.h"
 
@@ -47,6 +48,13 @@ DynamicArray_2<int> cloneArrayAndDouble_2(const DynamicArray_2<int> &arr) {
   return dbl;
 }
 
+void printFraction(const Fraction *ptr) {
+  if (ptr)
+    std::cout << *ptr << '\n';
+  else
+    std::cout << "No fraction\n";
+}
+
 int main() {
   // someFunction();
   // Auto_ptr1<Resource> res1(new Resource());
@@ -76,23 +84,30 @@ int main() {
   // Auto_ptr4<Resource> mainres;
   // mainres = generateResource4();
 
-  Timer t;
-  DynamicArray<int> arr(1000000);
-  for (auto i{0}; i < arr.getLength(); i++) {
-    arr[i] = i;
-  }
+  // Timer t;
+  // DynamicArray<int> arr(1000000);
+  // for (auto i{0}; i < arr.getLength(); i++) {
+  //   arr[i] = i;
+  // }
 
-  arr = cloneArrayAndDouble(arr);
+  // arr = cloneArrayAndDouble(arr);
 
-  std::cout << t.elapsed() << '\n';
-  Timer t2;
-  DynamicArray_2<int> arr2(1000000);
-  for (auto i{0}; i < arr2.getLength(); i++) {
-    arr2[i] = i;
-  }
+  // std::cout << t.elapsed() << '\n';
+  // Timer t2;
+  // DynamicArray_2<int> arr2(1000000);
+  // for (auto i{0}; i < arr2.getLength(); i++) {
+  //   arr2[i] = i;
+  // }
 
-  arr2 = cloneArrayAndDouble_2(arr2);
+  // arr2 = cloneArrayAndDouble_2(arr2);
 
-  std::cout << t2.elapsed() << '\n';
+  // std::cout << t2.elapsed() << '\n';
+
+  // auto ptr{std::make_unique<Fraction>(3, 5)};
+  // printFraction(ptr.get());
+
+  auto ptr1{std::make_shared<Resource_1>()};
+  ptr1->m_ptr = ptr1;
+
   return 0;
 }
