@@ -35,8 +35,55 @@ Allow our classes to be copied. This is done promarily via the copy constructor 
 ### MOVE SEMANTICS
 Class transfer ownership of the object rather than making a copy(Cheaper operation than copy). This is done primarily via the move contructor and move operator.
 
+### EXPRESSIONS
+An expression is a combination of literals, variables, operators and function calls than can be executed to produce a singula value. All expressions has two properties, a type and a value category. The type of the expression is equivalent to the type of the value, object, or function that results from the evaluated expression.
+
+The type of an expression must be determined at compile time, however the value of an expression may be determined at either compiled time(if the expression is constexpr) or runtime (if the expression is not constexpr).
+
+The value category of an expression indicates whether an expression resolves to a value, a function or an object of some kind.
+
+### L VALUES AND R VALUES
+An lvalue (short for “left value” or “locator value”, and sometimes written as “l-value”) is an expression that evaluates to an identifiable object or function (or bit-field).
+
+An rvalue (short for “right value”, and sometimes written as r-value) is an expression that is not an l-value. Commonly seen rvalues include literals (except C-style string literals, which are lvalues) and the return value of functions and operators. Rvalues aren’t identifiable (meaning they have to be used immediately), and only exist within the scope of the expression in which they are used.
+
+lvalues will implicitly convert to rvalues, so an lvalue can be used wherever an rvalue is required.
+
+As a rule of thumb to identify lvalue and rvalue expressions:
+
+lvalues expressions are those that evaluate to variables or other identifiable objects that persist beyond the end of the expression.
+rvalues expressions are those that evaluate to literals or the returned value of functions and operators that are discarded at the end of the expression.
+
+### L-VALUE REFERENCE
+Commonly just called a reference since prior to C++11 there was only one type of reference) acts as an alias for an existing lvalue (such as a variable).
+
+When defining a reference, place the ampersand next to the type (not the reference variable’s name).
+
+When a reference is initialized with an object (or function), we say it is bound to that object (or function). The process by which such a reference is bound is called reference binding. The object (or function) being referenced is sometimes called the referent.
+
+Lvalue references can’t be bound to non-modifiable lvalues or rvalues (otherwise you’d be able to change those values through the reference, which would be a violation of their const-ness).
+
+References can’t be reseated (changed to refer to another object)
+
+When an object being referenced is destroyed before a reference to it, the reference is left referencing an object that no longer exists. Such a reference is called a dangling reference. Accessing a dangling reference leads to undefined behavior.
+
+References aren’t objects
+
+Favor lvalue references to const over lvalue references to non-const unless you need to modify the object being referenced.
+
+Const references bound to temporary objects extend the lifetime of the temporary object
+
+Lvalue references to const can bind to modifiable lvalues, non-modifiable lvalues, and rvalues. This makes them a much more flexible type of reference.
+
 ### R-VALUE REFERENCE
-Is a reference that is designed to be inintialized with an r-value. It is created using double ampersand "&&". It is ok to write functions that tak r-value reference parameters, but you should almost never return an r-value reference for the same reason you should almost never return an l-value reference. In most cases, you’ll end up returning a hanging reference when the referenced object goes out of scope at the end of the function.
+Is a reference that is designed to be inintialized with an r-value. It is created using double ampersand "&&". It is ok to write functions that tak r-value reference parameters, but you should almost never return an r-value reference for the same reason you should almost never return an l-value reference. In most cases, you’ll end up returning a dangling reference when the referenced object goes out of scope at the end of the function.
+
+R-value references are more often used as function parameters. This is most useful for function overloads when you want to have different behavior for l-value and r-value arguments.
+
+Named-objects are l-values. Anonymous objects are r-values.
+
+### COPY CONSTRUCTORS AND MOVE SEMANTICS
+Copy constructors are used to initialize a class by making a copy of an object of the same class. Copy assignment is used to copy one class object to another existing class object. By default, C++ will provide a copy constructor and copy assignment operator if one is not explicitly provided. These compiler-provided functions do shallow copies, which may cause problems for classes that allocate dynamic memory. So classes that deal with dynamic memory should override these functions to do deep copies.
 
 *SIDE NOTES*: 
 - If we construct an object or do an assignment where the argument is an l-value, the only thing we can reasonably do is copy the l-value. We can’t assume it’s safe to alter the l-value, because it may be used again later in the program. If we have an expression “a = b”, we wouldn’t reasonably expect b to be changed in any way.
@@ -87,6 +134,7 @@ Include a link to your GitHub repository (you have no idea how people will find 
 ## Authors
 
 * **[Antonio Perez](https://github.com/jsueprez)** - *Initial work* -
+Source : https://www.learncpp.com/cpp-tutorial/move-constructors-and-move-assignment/
 
 Also see the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
