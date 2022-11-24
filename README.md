@@ -82,8 +82,17 @@ R-value references are more often used as function parameters. This is most usef
 
 Named-objects are l-values. Anonymous objects are r-values.
 
-### COPY CONSTRUCTORS AND MOVE SEMANTICS
+### COPY CONSTRUCTORS AND COPY ASSIGMENT
 Copy constructors are used to initialize a class by making a copy of an object of the same class. Copy assignment is used to copy one class object to another existing class object. By default, C++ will provide a copy constructor and copy assignment operator if one is not explicitly provided. These compiler-provided functions do shallow copies, which may cause problems for classes that allocate dynamic memory. So classes that deal with dynamic memory should override these functions to do deep copies.
+
+### MOVE CONSTRUCTORS AND MOVE ASSIGMENT
+The goal of the move constructor and move assignment is to move ownership of the resources from one object to another (which is typically much less expensive than making a copy).
+
+Defining a move constructor and move assignment work analogously to their copy counterparts. However, whereas the copy flavors of these functions take a const l-value reference parameter, the move flavors of these functions use non-const r-value reference parameters.
+
+When implementing move semantics, it is important to ensure the moved-from object is left in a valid state, so that it will destruct properly (without creating undefined behavior).
+
+Automatic l-values returned by value may be moved instead of copied. The C++ specification has a special rule that says automatic objects returned from a function by value can be moved even if they are l-values. 
 
 *SIDE NOTES*: 
 - If we construct an object or do an assignment where the argument is an l-value, the only thing we can reasonably do is copy the l-value. We can’t assume it’s safe to alter the l-value, because it may be used again later in the program. If we have an expression “a = b”, we wouldn’t reasonably expect b to be changed in any way.
